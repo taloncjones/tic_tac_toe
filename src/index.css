@@ -13,6 +13,10 @@ ol, ul {
   display: table;
 }
 
+.container {
+  padding: 0 1rem;
+}
+
 .status {
   margin-bottom: 10px;
 }
