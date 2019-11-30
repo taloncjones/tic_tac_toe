@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Header from './components/layout/Header';
+import About from './components/pages/About';
 import './index.css';
 
 function Square(props) {
@@ -79,7 +82,7 @@ class Game extends React.Component {
 
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
-    const current = history[history.length -1];
+    const current = history[history.length - 1];
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -123,20 +126,30 @@ class Game extends React.Component {
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
-    
+
     return (
-      <div className="game">
-        <div className="game-board">
-          <Board
-            squares={current.squares}
-            onClick={(i) => this.handleClick(i)}
-          />
+      <Router>
+        <div className="container">
+          <Header />
+          <Route exact path="/" render={props => (
+            <React.Fragment>
+              <div className="game">
+                <div className="game-board">
+                  <Board
+                    squares={current.squares}
+                    onClick={(i) => this.handleClick(i)}
+                  />
+                </div>
+                <div className="game-info">
+                  <div>{status}</div>
+                  <ol>{moves}</ol>
+                </div>
+              </div>
+            </React.Fragment>
+          )} />
+          <Route path="/about" component={About} />
         </div>
-        <div className="game-info">
-          <div>{status}</div>
-          <ol>{moves}</ol>
-        </div>
-      </div>
+      </Router>
     );
   }
 }
